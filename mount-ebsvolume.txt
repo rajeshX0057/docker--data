@@ -1,0 +1,29 @@
+fdisk /dev/xvdf
+n-new
+p-primary
+w-saving
+check lsblk
+mkfs.ext4 /dev/xvdf1
+mkdir /dockerdata
+vi /etc/fstab
+past uuid here--UUID: cafbd117-548b-4f6b-86b7-092ada2f3ab2  /dockerdata ext4
+mount -a
+mount done
+(add files
+
+for I in {1..10}; 
+do
+echo $(date) > file-$I
+done)
+
+systemctl stop docker.service
+systemctl stop docker.socket
+
+vi /lib/system/system/docker.service
+copy below line
+ExecStart=/usr/bin/dockerd --data-root /dockerdata -H fd:// --containerd=/run/containerd/containerd.sock
+
+sudo rsync -aqxP /var/lib/docker/ /dockerdata
+sudo systemctl daemon-reload && systemctl start docker
+systemctl status docker --no-pager
+ps aux | grep -i docker | grep -v grep (check daemon running or not)
