@@ -1,0 +1,9 @@
+portainer=  portainer we can get dash board,we can see all the network,data,volume,images,and containers etc..
+run below command to create container,download portainer image from dockerhub,and create socker to se what is there in ec2,create volume,
+
+
+ docker run -d -p 8000:8000 -p 9443:9443 --name portainer \
+ --restart=always \
+ -v /var/run/docker.sock:/var/run/docker.sock \
+ -v portainer_data:/data \
+ portainer/portainer-ce:2.11.1
