@@ -1,0 +1,30 @@
+network
+bridge
+host
+overlay
+and custom
+
+------------------
+-docker network create custom --driver bridge  (create bridge custom network)
+-(want to connect from one network to another network ,create new network,and connect like below command
+*docker network connect custom app1(bridge network connect to app )
+----------------------------
+bind mount
+
+volumes are helpful for creaing data whatever we added in database
+if we dont add any volumes,automatilly when we stop db container it can  erage all the data.
+so create volume (docker  volume create mongodb)
+ docker run --rm -d --name mongodb -v mongodb:/data/db -p 27017:27017 mongo:latest  (we have to mount volume)
+docker exec -it mongodb mongosh
+add data in to it
+-------------------------------------------------------------------------
+(   db.helo.insertMany([
+        	{ "_id" : 1, "name" : "Matt", "status": "active", "level": 12, "score":202},
+        	{ "_id" : 2, "name" : "Frank", "status": "inactive", "level": 2, "score":9},
+        	{ "_id" : 3, "name" : "Karen", "status": "active", "level": 7, "score":87},
+        	{ "_id" : 4, "name" : "Katie", "status": "active", "level": 3, "score":27, "status": "married", "emp": "yes", "kids": 3}
+        	])
+       	 
+   db.helo.find({name: "Katie"})
+)
+---------
