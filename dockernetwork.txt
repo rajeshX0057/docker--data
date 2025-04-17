@@ -28,3 +28,7 @@ add data in to it
    db.helo.find({name: "Katie"})
 )
 ---------
+check internal working or not 
+docker run --rm -d --name app1 -v /var/run/docker.sock:/var/run/docker.sock --network none practicals40/troubleshootingtools:v1
+
+then go to container and check docker images,from inside the container we can see the ec2 ,like check images,containers also from inside the container.we are getting information from docker.sock
