@@ -1,0 +1,36 @@
+#date 4/17/2025
+#author- RAJESH VADLAPATLA
+FROM ubuntu:latest
+
+LABEL name="rajesh"
+
+ENV AWS_ACCESS_KEY_ID=aaaaaaaaaaaaaaaaaaaaaa\
+    AWS_SECRET_KEY_ID=bbbbbbbbbbbbbbbbbbbbbb\
+    AWS_DEFAULT_REGION=US-EAST-1A
+
+ARG T_VERSION='1.6.6'\
+    P_VERSION='1.8.0'
+
+RUN apt update && apt install -y jq wget curl unzip net-tools\
+    && apt install -y nginx iputils-ping
+
+RUN wget https://releases.hashicorp.com/terraform/${T_VERSION}/terraform_${T_VERSION}_linux_amd64.zip\
+    && wget https://releases.hashicorp.com/packer/${P_VERSION}/packer_${P_VERSION}_linux_amd64.zip\
+    && unzip terraform_${T_VERSION}_linux_amd64.zip && unzip packer_${P_VERSION}_linux_amd64.zip\
+    && chmod 777 terraform && chmod 777 packer\
+    && ./terraform version && ./packer version
+
+CMD [ "nginx", "-g","daemon off;" ]
+
+#------------------------------------------------------------------------------------------------------
+
+### arguments can use while build the image but env can use while run the container
+#docker build -t practicals40/custom:v1 --build-arg T_version='1.4.0' --build-arg P_VERSION='1.4.0' -f dockerfile.dev . --no-cache
+#docker run --rm -d --name app1 -p 8000:80  practicals40/custom:v1
+#if i want to clean view
+##docker build -t practicals40/custom:v1 --progress=plain --build-arg T_version='1.4.0' --build-arg P_VERSION='1.4.0' -f dockerfile.dev . --no-cache
+
+# to run env wile run container
+## docker run --rm -d --name app2 -e AWS_ACCESS_KEY_ID=hidden -e AWS_SECRET_KEY_ID=hidden -e AWS_DEFAULT_REGION=hidden -p 8000:80  practicals40/custom:v1
+
+## docker system prune  (delete all stopped containers,unused networks and dangled images,unused cache)
