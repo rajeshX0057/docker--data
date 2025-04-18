@@ -1,0 +1,31 @@
+**** BIND MOUNTS  ****
+when we run command like docker ps,docker ls ,docker cli will connect to
+docker daemon with help of docker socker in host operating system.
+when we stop the container,we will loose data in db or any containers then came in to picture bindvolumes
+------------------
+#create volume
+docker volume create mongodb
+#run command
+docker run --rm -it -d mongodb -v mongodb:/data/db -p 27017:27017 mongodb:latest
+
+show dbs;
+
+add data to db
+0-------------------
+docker run -rm -d --name app1 -v /var/run/docker.sock:/var/run/docker.sock --network none imagename
+
+docker volume create portainerdata
+
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer ()
+#can see all the images,containers,volumes,log extra)
+
+--restart=always \
+-v /va/run/docker.sock:/var/run/docker.sock
+-v portainer_data:/data \
+portainer/portainer-ce:2.11.1
+
+
+
+
+
+
