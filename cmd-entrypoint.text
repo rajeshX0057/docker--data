@@ -1,0 +1,15 @@
+#date 4/17/2025
+#author- RAJESH VADLAPATLA
+FROM ubuntu:latest
+LABEL name="rajesh"
+
+RUN apt update && apt install -y jq wget curl unzip net-tools\
+    && apt install -y nginx iputils-ping
+
+
+#CMD we can change value from CLI while run the image but ENTRYPOINT we can not change,it is fixed
+
+ENTRYPOINT [ "ping", "-c 4"]
+CMD [ " www.google.com" ] 
+
+
