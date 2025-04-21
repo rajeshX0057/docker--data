@@ -1,0 +1,58 @@
+create 6 ec2 instances,while creating instances copy userdata  
+#!/bin/bash
+apt-get update
+apt install jq
+https:// get.docker.com 
+
+----------------------------------------------
+6 instances-3 master(manager)nodes and 3 worker nodes
+-----------------------------------
+go to master 1 node
+1)run command in master node 1 
+docker swarm init
+
+copy worker node token and paste in all three worker nodes
+
+2)docker swarm join-token manager
+it will generate master node token 
+copy in rest of the master (manager)nodes
+-------------------------------------------------
+
+now cluster created
+------------------
+docker network ls
+u can see ingress and docker-gwbridge networks
+
+----------------------------------
+next,we need to see clusters,nodes,containers
+run this
+$ docker run -it -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock dockersamples/visualizer
+-we can se port with 8080
+-------------------------------------------------------
+create docker service
+docker service create --name app1 --replicas 6 --publish 8000:80 imagename (create service)
+------------------------------------------------------------------------
+docker service scale app1=3
+docker service rm app1(to delete service)
+
+docker node i need to drain,so particular node can not deply container
+
+docker node update ip-10-0-10-55 --availability 
+active drain pause
+docker node update ip-10-0-10-55 --availability  drain,so 
+its gone from this node and deploy in another node
+---------------------------------------------------------
+if we need to active all nodes, same can use active option
+-------------
+i want to deploy in only worker nodes,and should not deploy in any other master nodes,because some times i need to deploy monitering tools in master node
+
+docker service create --constrain=node.role==worker --name app1 --replicas 6 --publish 8000:80 imagename (create service)
+
+docker service create --name monitor --publish 9100:9100 --mode global prom/node-exporter:latest (create service in master nodes)
+
+--------------------------------------------------------
+
+
+
+
+
